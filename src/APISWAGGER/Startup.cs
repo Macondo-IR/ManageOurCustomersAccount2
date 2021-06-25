@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using API.Middleware;
-using API.SignalR;
+using APISWAGGER.Middleware;
+using APISWAGGER.SignalR;
 using Application.Activities;
 using Application.Interfaces;
 using AutoMapper;
@@ -32,7 +32,7 @@ using Persistence;
 using Application.Profiles;
 using Microsoft.OpenApi.Models;
 
-namespace API
+namespace APISWAGGER
 {
     public class Startup
     {
@@ -46,7 +46,6 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -119,12 +118,19 @@ namespace API
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
             //services.AddSwaggerGen(c =>
             //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            //   c.SwaggerDoc("v1", new OpenApiInfo { Title = "APISWAGGER", Version = "v1" });
             //});
             services.AddSwaggerGen(options =>
             {
                 options.CustomSchemaIds(type => type.ToString());
             });
+
+
+            //services.AddControllers();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "APISWAGGER", Version = "v1" });
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -152,6 +158,21 @@ namespace API
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
             });
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APISWAGGER v1"));
+            //}
+
+            //app.UseRouting();
+
+            //app.UseAuthorization();
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }
